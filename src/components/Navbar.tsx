@@ -17,8 +17,10 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   
   const navLinks = [
     { name: t('home'), href: '/' },
+    { name: t('dashboard'), href: '/dashboard' },
     { name: t('legalServices'), href: '/legal-service' },
     { name: t('aiAssistant'), href: '/ai-legal-assistant' },
+    { name: t('documentGenerator'), href: '/document-generator' },
     { name: t('consultLawyer'), href: '/consult-lawyer' },
     { name: t('pricing'), href: '/pricing' },
     { name: t('blog'), href: '/blog' },

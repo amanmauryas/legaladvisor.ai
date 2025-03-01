@@ -13,6 +13,8 @@ import PricingPage from './pages/PricingPage';
 import SignInPage from './pages/SignInPage';
 import BlogPage from './pages/BlogPage';
 import FutureUpdatesPage from './pages/FutureUpdatesPage';
+import DashboardPage from './pages/DashboardPage';
+import DocumentGeneratorPage from './pages/DocumentGeneratorPage';
 
 const NotFoundPage: React.FC = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -110,9 +112,11 @@ const App: React.FC = () => {
       
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/legal-service" element={<LegalServicePage />} />
         <Route path="/ai-legal-assistant" element={<AIAssistantPage />} />
         <Route path="/consult-lawyer" element={<ConsultLawyerPage />} />
+        <Route path="/document-generator" element={<DocumentGeneratorPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/blog" element={<BlogPage />} />
