@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocale } from '../contexts/LocaleContext';
 import { 
   Check, 
   X, 
@@ -13,207 +14,173 @@ import {
   ChevronDown,
   ChevronUp
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const PricingPage: React.FC = () => {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-
-  const toggleFaq = (index: number) => {
-    if (expandedFaq === index) {
-      setExpandedFaq(null);
-    } else {
-      setExpandedFaq(index);
-    }
-  };
+  const { formatPrice, t } = useLocale();
 
   const plans = [
     {
-      name: 'Basic',
-      description: 'For individuals with occasional legal needs',
-      monthlyPrice: 29,
-      annualPrice: 290,
+      name: "Basic",
+      description: "For individuals seeking basic legal assistance",
+      price: billingPeriod === 'monthly' ? 29 : 290,
       features: [
-        { name: 'AI Legal Assistant Access', included: true },
-        { name: 'Document Generation (3/month)', included: true },
-        { name: 'Legal Research', included: true },
-        { name: 'Email Support', included: true },
-        { name: 'Lawyer Consultations', included: false },
-        { name: 'Priority Support', included: false },
-        { name: 'Custom Document Templates', included: false },
-        { name: 'Team Access', included: false }
+        "AI Legal Assistant Access",
+        "Document Templates",
+        "Basic Legal Research",
+        "Email Support",
+        "1 Free Legal Document Review"
       ],
-      icon: <Shield className="h-8 w-8 text-blue-600" />,
-      popular: false,
-      ctaText: 'Get Started'
+      notIncluded: [
+        "Video Consultations",
+        "Priority Support",
+        "Custom Document Creation",
+        "Dedicated Legal Team"
+      ]
     },
     {
-      name: 'Professional',
-      description: 'For individuals with regular legal needs',
-      monthlyPrice: 79,
-      annualPrice: 790,
-      features: [
-        { name: 'AI Legal Assistant Access', included: true },
-        { name: 'Unlimited Document Generation', included: true },
-        { name: 'Advanced Legal Research', included: true },
-        { name: 'Email & Chat Support', included: true },
-        { name: 'Lawyer Consultations (2 hours/month)', included: true },
-        { name: 'Priority Support', included: true },
-        { name: 'Custom Document Templates', included: false },
-        { name: 'Team Access', included: false }
-      ],
-      icon: <Zap className="h-8 w-8 text-yellow-500" />,
+      name: "Professional",
+      description: "For small businesses and professionals",
+      price: billingPeriod === 'monthly' ? 99 : 990,
       popular: true,
-      ctaText: 'Get Started'
+      features: [
+        "Everything in Basic",
+        "3 Video Consultations/month",
+        "Priority Support",
+        "Custom Document Creation",
+        "Unlimited Document Reviews",
+        "Business Contract Templates"
+      ],
+      notIncluded: [
+        "Dedicated Legal Team",
+        "24/7 Emergency Support"
+      ]
     },
     {
-      name: 'Business',
-      description: 'For businesses with complex legal needs',
-      monthlyPrice: 199,
-      annualPrice: 1990,
+      name: "Enterprise",
+      description: "For growing businesses with complex legal needs",
+      price: billingPeriod === 'monthly' ? 299 : 2990,
       features: [
-        { name: 'AI Legal Assistant Access', included: true },
-        { name: 'Unlimited Document Generation', included: true },
-        { name: 'Advanced Legal Research', included: true },
-        { name: 'Priority Email, Chat & Phone Support', included: true },
-        { name: 'Lawyer Consultations (5 hours/month)', included: true },
-        { name: 'Priority Support', included: true },
-        { name: 'Custom Document Templates', included: true },
-        { name: 'Team Access (5 users)', included: true }
+        "Everything in Professional",
+        "Unlimited Video Consultations",
+        "Dedicated Legal Team",
+        "24/7 Emergency Support",
+        "Custom Legal Strategy",
+        "Regulatory Compliance Review"
       ],
-      icon: <Users className="h-8 w-8 text-blue-600" />,
-      popular: false,
-      ctaText: 'Get Started'
+      notIncluded: []
     }
   ];
 
   const faqs = [
     {
-      question: 'What is included in the AI Legal Assistant access?',
-      answer: 'The AI Legal Assistant provides instant answers to legal questions, helps draft documents, and offers legal research capabilities. It\'s available 24/7 and can handle a wide range of legal topics including business law, family law, real estate, intellectual property, and more.'
+      question: "What's included in the AI Legal Assistant?",
+      answer: "Our AI Legal Assistant provides instant answers to legal questions, helps with document analysis, and offers preliminary legal research. It's available 24/7 and can handle multiple legal topics."
     },
     {
-      question: 'How do lawyer consultations work?',
-      answer: 'Lawyer consultations are conducted via video call, chat, or phone with qualified attorneys. You can schedule consultations through our platform based on the lawyer\'s availability. The consultation time is deducted from your monthly allocation, and you can purchase additional consultation time if needed.'
+      question: "Can I upgrade or downgrade my plan?",
+      answer: "Yes, you can change your plan at any time. If you upgrade, you'll be charged the prorated difference. If you downgrade, you'll receive a prorated credit for your next billing cycle."
     },
     {
-      question: 'Can I cancel my subscription at any time?',
-      answer: 'Yes, you can cancel your subscription at any time. If you cancel, you\'ll continue to have access to your plan until the end of your current billing period. We don\'t offer refunds for partial months or years of service.'
+      question: "Are video consultations with real lawyers?",
+      answer: "Yes, all video consultations are with licensed attorneys who specialize in relevant practice areas. They're carefully vetted and have extensive experience in their fields."
     },
     {
-      question: 'Are the documents generated legally binding?',
-      answer: 'The documents generated by our AI are designed to be legally sound and can be legally binding when properly executed according to relevant laws. However, for complex legal matters, we recommend having a lawyer review the documents before finalizing them.'
-    },
-    {
-      question: 'What types of documents can I generate?',
-      answer: 'Our platform can generate a wide variety of legal documents including contracts, agreements, wills, powers of attorney, business formation documents, real estate documents, and more. The specific document types available may vary by plan.'
-    },
-    {
-      question: 'Is my information secure and confidential?',
-      answer: 'Yes, we take security and confidentiality very seriously. All communications and documents are encrypted, and we maintain strict privacy policies. We do not share your information with third parties without your consent, and our systems are designed to protect attorney-client privilege where applicable.'
+      question: "Is my data secure and confidential?",
+      answer: "Absolutely. We employ bank-level encryption and security measures to protect your data. All communications are protected by attorney-client privilege where applicable."
     }
   ];
 
   return (
-    <main>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white py-16">
+    <div className="flex-1 bg-gray-50">
+      {/* Header */}
+      <section className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white py-20">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Simple, Transparent Pricing</h1>
-            <p className="text-xl text-blue-100 mb-10">
-              Choose the plan that fits your legal needs. All plans include our AI-powered legal assistance.
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              {t('pricing')}
+            </h1>
+            <p className="text-xl text-blue-100 mb-8">
+              {t('choosePlan')}
             </p>
-            
+
             {/* Billing Toggle */}
-            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm p-1 rounded-lg border border-white/20 mb-10">
-              <button
-                className={`py-2 px-4 rounded-md transition ${
-                  billingPeriod === 'monthly' 
-                    ? 'bg-white text-blue-900 font-bold' 
-                    : 'text-white hover:bg-white/10'
-                }`}
-                onClick={() => setBillingPeriod('monthly')}
-              >
+            <div className="flex items-center justify-center space-x-4">
+              <span className={billingPeriod === 'monthly' ? 'text-white' : 'text-blue-200'}>
                 Monthly
-              </button>
+              </span>
               <button
-                className={`py-2 px-4 rounded-md transition ${
-                  billingPeriod === 'annual' 
-                    ? 'bg-white text-blue-900 font-bold' 
-                    : 'text-white hover:bg-white/10'
-                }`}
-                onClick={() => setBillingPeriod('annual')}
+                onClick={() => setBillingPeriod(prev => prev === 'monthly' ? 'annual' : 'monthly')}
+                className="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 bg-blue-600"
               >
-                Annual <span className="text-xs font-normal">Save 15%</span>
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    billingPeriod === 'annual' ? 'translate-x-5' : 'translate-x-0'
+                  }`}
+                />
               </button>
+              <span className={billingPeriod === 'annual' ? 'text-white' : 'text-blue-200'}>
+                Annual (Save 20%)
+              </span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Plans */}
-      <section className="py-16 bg-white">
+      {/* Pricing Cards */}
+      <section className="py-16">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {plans.map((plan, index) => (
-              <div 
-                key={index} 
-                className={`bg-white rounded-xl overflow-hidden transition-all duration-300 ${
-                  plan.popular 
-                    ? 'shadow-xl border-2 border-yellow-500 transform md:-translate-y-4' 
-                    : 'shadow-md border border-gray-200 hover:shadow-lg'
+              <div
+                key={index}
+                className={`bg-white rounded-xl shadow-lg overflow-hidden ${
+                  plan.popular ? 'ring-2 ring-blue-600 transform scale-105' : ''
                 }`}
               >
                 {plan.popular && (
-                  <div className="bg-yellow-500 text-blue-900 text-center py-2 font-bold text-sm">
-                    MOST POPULAR
+                  <div className="bg-blue-600 text-white text-center py-2">
+                    <span className="text-sm font-medium">Most Popular</span>
                   </div>
                 )}
-                
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    <div className={`p-2 rounded-full mr-3 ${plan.popular ? 'bg-yellow-100' : 'bg-blue-100'}`}>
-                      {plan.icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900">{plan.name}</h3>
-                  </div>
-                  
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                   <p className="text-gray-600 mb-6">{plan.description}</p>
-                  
                   <div className="mb-6">
-                    <span className="text-4xl font-bold text-gray-900">
-                      ${billingPeriod === 'monthly' ? plan.monthlyPrice : plan.annualPrice}
-                    </span>
-                    <span className="text-gray-600">
-                      /{billingPeriod === 'monthly' ? 'month' : 'year'}
-                    </span>
+                    <span className="text-4xl font-bold text-gray-900">{formatPrice(plan.price)}</span>
+                    <span className="text-gray-600">/{billingPeriod === 'monthly' ? t('mo') : t('yr')}</span>
                   </div>
-                  
-                  <Link 
-                    to="/register" 
-                    className={`block text-center py-3 px-6 rounded-lg transition duration-300 mb-8 ${
-                      plan.popular 
-                        ? 'bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold' 
-                        : 'bg-blue-700 hover:bg-blue-800 text-white font-medium'
-                    }`}
-                  >
-                    {plan.ctaText}
-                  </Link>
-                  
-                  <div className="space-y-3">
-                    {plan.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-start">
-                        {feature.included ? (
-                          <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        ) : (
-                          <X className="h-5 w-5 text-gray-400 mr-2 mt-0.5 flex-shrink-0" />
-                        )}
-                        <span className={feature.included ? 'text-gray-700' : 'text-gray-500'}>
-                          {feature.name}
-                        </span>
-                      </div>
-                    ))}
+                  <button className={`w-full py-3 px-4 rounded-lg font-medium transition duration-200 ${
+                    plan.popular
+                      ? 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  }`}>
+                    {t('getStarted')}
+                  </button>
+                  <div className="mt-8">
+                    <p className="font-medium text-gray-900 mb-4">{t('includedFeatures')}:</p>
+                    <ul className="space-y-3">
+                      {plan.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start space-x-3">
+                          <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                          <span className="text-gray-600">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {plan.notIncluded.length > 0 && (
+                      <>
+                        <p className="font-medium text-gray-900 mb-4 mt-6">{t('notIncluded')}:</p>
+                        <ul className="space-y-3">
+                          {plan.notIncluded.map((feature, idx) => (
+                            <li key={idx} className="flex items-start space-x-3">
+                              <X className="h-5 w-5 text-red-500 flex-shrink-0" />
+                              <span className="text-gray-600">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -222,210 +189,80 @@ const PricingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Features Comparison */}
-      <section className="py-16 bg-gray-50">
+      {/* Features */}
+      <section className="bg-white py-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">What's Included</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              All Plans Include
+            </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Compare our plans to find the right fit for your legal needs.
+              Essential features available across all our plans
             </p>
           </div>
-          
-          <div className="max-w-6xl mx-auto overflow-x-auto">
-            <table className="w-full bg-white rounded-xl shadow-md">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="py-4 px-6 text-left text-gray-900 font-bold">Features</th>
-                  <th className="py-4 px-6 text-center text-gray-900 font-bold">Basic</th>
-                  <th className="py-4 px-6 text-center text-gray-900 font-bold bg-yellow-50">Professional</th>
-                  <th className="py-4 px-6 text-center text-gray-900 font-bold">Business</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-t border-gray-200">
-                  <td className="py-4 px-6 text-gray-800 font-medium">
-                    <div className="flex items-center">
-                      <MessageSquare className="h-5 w-5 text-blue-600 mr-2" />
-                      AI Legal Assistant
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-center">Basic Access</td>
-                  <td className="py-4 px-6 text-center bg-yellow-50">Full Access</td>
-                  <td className="py-4 px-6 text-center">Full Access</td>
-                </tr>
-                <tr className="border-t border-gray-200">
-                  <td className="py-4 px-6 text-gray-800 font-medium">
-                    <div className="flex items-center">
-                      <FileText className="h-5 w-5 text-blue-600 mr-2" />
-                      Document Generation
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-center">3 per month</td>
-                  <td className="py-4 px-6 text-center bg-yellow-50">Unlimited</td>
-                  <td className="py-4 px-6 text-center">Unlimited</td>
-                </tr>
-                <tr className="border-t border-gray-200">
-                  <td className="py-4 px-6 text-gray-800 font-medium">
-                    <div className="flex items-center">
-                      <Video className="h-5 w-5 text-blue-600 mr-2" />
-                      Lawyer Consultations
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-center">
-                    <X className="h-5 w-5 text-gray-400 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center bg-yellow-50">2 hours/month</td>
-                  <td className="py-4 px-6 text-center">5 hours/month</td>
-                </tr>
-                <tr className="border-t border-gray-200">
-                  <td className="py-4 px-6 text-gray-800 font-medium">
-                    <div className="flex items-center">
-                      <Clock className="h-5 w-5 text-blue-600 mr-2" />
-                      Response Time
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-center">24 hours</td>
-                  <td className="py-4 px-6 text-center bg-yellow-50">4 hours</td>
-                  <td className="py-4 px-6 text-center">1 hour</td>
-                </tr>
-                <tr className="border-t border-gray-200">
-                  <td className="py-4 px-6 text-gray-800 font-medium">
-                    <div className="flex items-center">
-                      <Users className="h-5 w-5 text-blue-600 mr-2" />
-                      Team Members
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-center">1 user</td>
-                  <td className="py-4 px-6 text-center bg-yellow-50">1 user</td>
-                  <td className="py-4 px-6 text-center">5 users</td>
-                </tr>
-                <tr className="border-t border-gray-200">
-                  <td className="py-4 px-6 text-gray-800 font-medium">
-                    <div className="flex items-center">
-                      <Shield className="h-5 w-5 text-blue-600 mr-2" />
-                      Custom Templates
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-center">
-                    <X className="h-5 w-5 text-gray-400 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center bg-yellow-50">
-                    <X className="h-5 w-5 text-gray-400 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center">
-                    <Check className="h-5 w-5 text-green-500 mx-auto" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <Shield className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Secure & Confidential</h3>
+              <p className="text-gray-600">Bank-level security and data encryption</p>
+            </div>
+            <div className="text-center">
+              <Zap className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Fast Response</h3>
+              <p className="text-gray-600">Quick answers to your legal questions</p>
+            </div>
+            <div className="text-center">
+              <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Expert Support</h3>
+              <p className="text-gray-600">Access to qualified legal professionals</p>
+            </div>
+            <div className="text-center">
+              <Clock className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="text-lg font-bold text-gray-900 mb-2">24/7 Availability</h3>
+              <p className="text-gray-600">AI assistance available around the clock</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-16 bg-white">
+      {/* FAQ */}
+      <section className="py-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Frequently Asked Questions
+            </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Find answers to common questions about our plans and services.
+              Find answers to common questions about our services
             </p>
           </div>
-          
+
           <div className="max-w-3xl mx-auto">
-            <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
-                  <button
-                    className="w-full flex justify-between items-center p-4 text-left bg-white hover:bg-gray-50 transition"
-                    onClick={() => toggleFaq(index)}
-                  >
-                    <span className="font-medium text-gray-900">{faq.question}</span>
-                    {expandedFaq === index ? (
-                      <ChevronUp className="h-5 w-5 text-gray-500" />
-                    ) : (
-                      <ChevronDown className="h-5 w-5 text-gray-500" />
-                    )}
-                  </button>
-                  
-                  {expandedFaq === index && (
-                    <div className="p-4 bg-gray-50 border-t border-gray-200">
-                      <p className="text-gray-700">{faq.answer}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Enterprise Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto bg-gradient-to-r from-blue-900 to-indigo-900 rounded-xl overflow-hidden shadow-xl">
-            <div className="p-8 md:p-12 flex flex-col md:flex-row items-center">
-              <div className="md:w-2/3 mb-8 md:mb-0 md:pr-8">
-                <h2 className="text-3xl font-bold text-white mb-4">Need a Custom Enterprise Solution?</h2>
-                <p className="text-xl text-blue-100 mb-6">
-                  We offer tailored legal solutions for larger organizations with complex needs. Get in touch to discuss your requirements.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-yellow-400 mr-2 mt-0.5" />
-                    <span className="text-white">Custom AI training on your legal documents</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-yellow-400 mr-2 mt-0.5" />
-                    <span className="text-white">Dedicated legal team and account manager</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-yellow-400 mr-2 mt-0.5" />
-                    <span className="text-white">Advanced security and compliance features</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-yellow-400 mr-2 mt-0.5" />
-                    <span className="text-white">API access and custom integrations</span>
-                  </li>
-                </ul>
-                <Link 
-                  to="#" 
-                  className="inline-block bg-white hover:bg-gray-100 text-blue-900 font-bold py-3 px-8 rounded-lg transition duration-300"
+            {faqs.map((faq, index) => (
+              <div key={index} className="mb-4">
+                <button
+                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                  className="w-full flex items-center justify-between p-4 rounded-lg bg-white shadow-md hover:shadow-lg transition duration-200"
                 >
-                  Contact Sales
-                </Link>
+                  <span className="font-medium text-gray-900">{faq.question}</span>
+                  {expandedFaq === index ? (
+                    <ChevronUp className="h-5 w-5 text-gray-500" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 text-gray-500" />
+                  )}
+                </button>
+                {expandedFaq === index && (
+                  <div className="mt-2 p-4 bg-gray-50 rounded-lg">
+                    <p className="text-gray-600">{faq.answer}</p>
+                  </div>
+                )}
               </div>
-              <div className="md:w-1/3">
-                <img 
-                  src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" 
-                  alt="Enterprise Solutions" 
-                  className="rounded-lg shadow-lg"
-                />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to Transform Your Legal Experience?</h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Join thousands of satisfied clients who have simplified their legal processes with our AI-powered platform.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/register" className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg">
-              Get Started Today
-            </Link>
-            <Link to="#" className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-3 px-8 rounded-lg transition duration-300">
-              Schedule a Demo
-            </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+    </div>
   );
 };
 

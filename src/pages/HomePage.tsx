@@ -6,18 +6,18 @@ import {
   FileText, 
   Video, 
   Clock, 
-  ChevronRight,
+  Lock, 
+  CheckCircle,
   Scale,
   BookOpen,
-  Briefcase,
-  Lock,
-  CheckCircle
+  Briefcase
 } from 'lucide-react';
-import TestimonialCard from '../components/TestimonialCard';
+import { useLocale } from '../contexts/LocaleContext';
 import ServiceCard from '../components/ServiceCard';
-import { Link } from 'react-router-dom';
+import TestimonialCard from '../components/TestimonialCard';
 
 const HomePage: React.FC = () => {
+  const { t } = useLocale();
   const [searchQuery, setSearchQuery] = useState('');
 
   const testimonials = [
@@ -72,7 +72,7 @@ const HomePage: React.FC = () => {
   ];
 
   return (
-    <main>
+    <div className="flex-1">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-blue-900 to-indigo-900 text-white">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')] opacity-10 bg-cover bg-center"></div>
@@ -80,18 +80,18 @@ const HomePage: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 mb-12 md:mb-0">
               <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-                Your AI-Powered Legal Advisor – Smart, Secure & Instant
+                {t('welcome')}
               </h1>
               <p className="text-xl mb-8 text-blue-100">
                 Get legal insights, draft contracts, and consult with professionals effortlessly.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/ai-assistant" className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg inline-block text-center">
-                  Get Legal Advice Now
-                </Link>
-                <Link to="/legal-services" className="bg-transparent hover:bg-blue-800 text-white border border-white font-bold py-3 px-8 rounded-lg transition duration-300 inline-block text-center">
-                  Learn More
-                </Link>
+                <button className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg">
+                  {t('getStarted')}
+                </button>
+                <button className="bg-transparent hover:bg-blue-800 text-white border border-white font-bold py-3 px-8 rounded-lg transition duration-300">
+                  {t('learnMore')}
+                </button>
               </div>
             </div>
             <div className="md:w-1/2 flex justify-center">
@@ -103,7 +103,7 @@ const HomePage: React.FC = () => {
                 <div className="relative mb-6">
                   <input
                     type="text"
-                    placeholder="Ask a legal question..."
+                    placeholder={t('askLegalQuestion')}
                     className="w-full bg-white/20 text-white placeholder-blue-200 border border-blue-300/30 rounded-lg py-3 px-4 pr-12 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -121,9 +121,9 @@ const HomePage: React.FC = () => {
                     <p className="text-sm">How to create an LLC?</p>
                   </div>
                 </div>
-                <Link to="/ai-assistant" className="w-full bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 rounded-lg transition duration-300 inline-block text-center">
-                  Search Now
-                </Link>
+                <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 rounded-lg transition duration-300">
+                  {t('searchNow')}
+                </button>
               </div>
             </div>
           </div>
@@ -242,16 +242,16 @@ const HomePage: React.FC = () => {
             Join thousands of satisfied clients who have simplified their legal processes with our AI-powered platform.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/register" className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg inline-block">
+            <button className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg">
               Get Started Free
-            </Link>
-            <Link to="/consult-lawyer" className="bg-transparent hover:bg-blue-800 text-white border border-white font-bold py-3 px-8 rounded-lg transition duration-300 inline-block">
+            </button>
+            <button className="bg-transparent hover:bg-blue-800 text-white border border-white font-bold py-3 px-8 rounded-lg transition duration-300">
               Schedule a Demo
-            </Link>
+            </button>
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 
