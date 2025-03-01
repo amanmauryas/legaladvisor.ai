@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the Gemini API with your API key
-const genAI = new GoogleGenerativeAI(process.env.VITE_GEMINI_API_KEY || '');
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || '');
 
 // Create a reusable chat interface
 export interface ChatMessage {
@@ -63,7 +63,7 @@ export const sendChatMessage = async (
 // Helper function to validate API key
 export const validateApiKey = async (): Promise<boolean> => {
   try {
-    if (!process.env.VITE_GEMINI_API_KEY) {
+    if (!import.meta.env.VITE_GEMINI_API_KEY) {
       throw new Error('API key not found');
     }
     // Try a simple completion to validate the API key
