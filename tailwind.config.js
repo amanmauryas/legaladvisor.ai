@@ -26,6 +26,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        cursive: ['Dancing Script', 'cursive'],
       },
       boxShadow: {
         'card': '0 2px 4px rgba(0, 0, 0, 0.1)',
