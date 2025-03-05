@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useLocale } from './contexts/LocaleContext';
 import { MessageSquare } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ChatWidget from './components/ChatWidget';
+import ConsentBanner from './components/ConsentBanner';
 import HomePage from './pages/HomePage';
 import LegalServicePage from './pages/LegalServicePage';
 import AIAssistantPage from './pages/AIAssistantPage';
@@ -16,7 +17,7 @@ import FutureUpdatesPage from './pages/FutureUpdatesPage';
 import DashboardPage from './pages/DashboardPage';
 import DocumentGeneratorPage from './pages/DocumentGeneratorPage';
 
-const NotFoundPage: React.FC = () => (
+const NotFoundPage = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50">
     <div className="text-center">
       <h1 className="text-6xl font-bold text-blue-700 mb-4">404</h1>
@@ -51,7 +52,7 @@ interface GoogleWindow extends Window {
 
 declare const window: GoogleWindow;
 
-const App: React.FC = () => {
+export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const { language } = useLocale();
@@ -99,7 +100,7 @@ const App: React.FC = () => {
           element.innerHTML = '';
         }
         if (window.googleTranslateElementInit) {
-          window.googleTranslateElementInit = undefined;
+          delete window.googleTranslateElementInit;
         }
       };
     }
@@ -132,14 +133,14 @@ const App: React.FC = () => {
         <button 
           onClick={() => setShowChat(true)}
           className="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white rounded-full p-4 shadow-lg z-50 flex items-center justify-center"
+          aria-label="Open chat"
         >
           <MessageSquare className="h-6 w-6" />
         </button>
       )}
 
       <Footer />
+      <ConsentBanner />
     </div>
   );
-};
-
-export default App;
+}

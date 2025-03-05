@@ -1,7 +1,7 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import { Scale, Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
-const Footer: React.FC = () => {
+export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-6 py-12">
@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
               <span className="ml-2 text-2xl font-bold">LegalAI</span>
             </div>
             <p className="text-gray-400 mb-6">
-              Revolutionizing legal services with AI technology, making legal advice accessible, affordable, and efficient.
+              Revolutionizing legal services with AI technology, making legal advice accessible, affordable, and efficient for Indian citizens.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition duration-300">
@@ -36,22 +36,34 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Home</a>
+                <Link to="/" className="text-gray-400 hover:text-white transition duration-300">
+                  Home
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">About Us</a>
+                <Link to="/about" className="text-gray-400 hover:text-white transition duration-300">
+                  About Us
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Services</a>
+                <Link to="/legal-service" className="text-gray-400 hover:text-white transition duration-300">
+                  Services
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Pricing</a>
+                <Link to="/pricing" className="text-gray-400 hover:text-white transition duration-300">
+                  Pricing
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Blog</a>
+                <Link to="/blog" className="text-gray-400 hover:text-white transition duration-300">
+                  Blog
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Contact</a>
+                <Link to="/contact" className="text-gray-400 hover:text-white transition duration-300">
+                  Contact
+                </Link>
               </li>
             </ul>
           </div>
@@ -61,22 +73,39 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
+                <Link to="/terms" className="text-gray-400 hover:text-white transition duration-300">
+                  Terms of Service
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>
+                <Link to="/privacy" className="text-gray-400 hover:text-white transition duration-300">
+                  Privacy Policy
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Cookie Policy</a>
+                <Link to="/cookie-policy" className="text-gray-400 hover:text-white transition duration-300">
+                  Cookie Policy
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Disclaimer</a>
+                <Link to="/disclaimer" className="text-gray-400 hover:text-white transition duration-300">
+                  Disclaimer
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Security</a>
+                <Link to="/security" className="text-gray-400 hover:text-white transition duration-300">
+                  Security
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Accessibility</a>
+                <Link to="/accessibility" className="text-gray-400 hover:text-white transition duration-300">
+                  Accessibility
+                </Link>
+              </li>
+              <li>
+                <Link to="/sitemap" className="text-gray-400 hover:text-white transition duration-300">
+                  Site Map
+                </Link>
               </li>
             </ul>
           </div>
@@ -88,20 +117,20 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-gray-400 mr-2 mt-0.5" />
                 <span className="text-gray-400">
-                  123 Legal Avenue, Suite 500<br />
-                  San Francisco, CA 94103
+                  Fatehpur, Uttar Pradesh 212622<br />
+                  India
                 </span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 text-gray-400 mr-2" />
-                <a href="tel:+14155552671" className="text-gray-400 hover:text-white transition duration-300">
-                  (415) 555-2671
+                <a href="tel:+919876543210" className="text-gray-400 hover:text-white transition duration-300">
+                  +91 98765 43210
                 </a>
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-gray-400 mr-2" />
-                <a href="mailto:info@legalai.com" className="text-gray-400 hover:text-white transition duration-300">
-                  info@legalai.com
+                <a href="mailto:info@legalai.in" className="text-gray-400 hover:text-white transition duration-300">
+                  info@legalai.in
                 </a>
               </li>
             </ul>
@@ -111,7 +140,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2025 LegalAI. All rights reserved.
+              © {new Date().getFullYear()} LegalAI. All rights reserved.
             </p>
             <div>
               <p className="text-gray-400 text-sm text-center md:text-right">
@@ -123,6 +152,4 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
